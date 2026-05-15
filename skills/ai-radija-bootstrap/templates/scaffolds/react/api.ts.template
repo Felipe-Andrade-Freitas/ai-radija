@@ -1,0 +1,40 @@
+import { msalInstance } from './msal';
+
+export interface ApiResponse<T> {
+  success: boolean;
+  data?: T;
+  error?: string;
+  message?: string;
+  correlationId?: string;
+}
+
+const API_BASE = import.meta.env.VITE_API_BASE_URL as string;
+const API_SCOPES = (import.meta.env.VITE_API_SCOPES as string).split(',');
+
+async function getAccessToken(): Promise<string> {
+  const account = msalInstance.getAllAccounts()[0];
+  if (!account) throw new Error('Not authenticated');
+  const { accessToken } = await msalInstance.acquireTokenSilent({
+    scopes: API_SCOPES,
+    account,
+  });
+  return accessToken;
+}
+
+export async function apiFetch<T>(
+  path: string,
+  init: RequestInit = {},
+): Promise<ApiResponse<T>> {
+  const token = await getAccessToken();
+  const correlationId = crypto.randomUUID();
+  const res = await fetch(`${API_BASE}${path}`, {
+    ...init,
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Correlation-Id': correlationId,
+      Authorization: `Bearer ${token}`,
+      ...(init.headers ?? {}),
+    },
+  });
+  return (await res.json()) as ApiResponse<T>;
+}

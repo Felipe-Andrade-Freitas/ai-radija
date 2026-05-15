@@ -1,0 +1,43 @@
+import os
+from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+
+from app.common.api_response import ApiResponse
+from app.common.config.vault_loader import load_secrets_from_vault
+from app.common.middleware.correlation_id import CorrelationIdMiddleware
+from app.common.auth.azure_ad import azure_ad_security
+
+load_secrets_from_vault()
+
+app = FastAPI(
+    title="{{ProjectName}}",
+    version="0.1.0",
+    dependencies=[],
+)
+
+origins = (os.getenv("CORS_ALLOWED_ORIGINS") or "").split(",")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[o for o in origins if o],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+app.add_middleware(CorrelationIdMiddleware)
+
+
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    is_prod = os.getenv("ENV") == "production"
+    return JSONResponse(
+        status_code=500,
+        content=ApiResponse.fail(
+            "An unexpected error occurred." if is_prod else str(exc)
+        ).model_dump(),
+    )
+
+
+@app.get("/api/health")
+async def health():
+    return ApiResponse.ok({"status": "healthy"})

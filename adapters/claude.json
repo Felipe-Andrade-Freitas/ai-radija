@@ -1,0 +1,7 @@
+{
+  "name": "Claude Code",
+  "skills_dir": ".claude/skills",
+  "context_file": "CLAUDE.md",
+  "install_url": "https://docs.anthropic.com/en/docs/claude-code/setup",
+  "notes": "Claude Code discovers skills via .claude-plugin/plugin.json. Manual install is optional."
+}

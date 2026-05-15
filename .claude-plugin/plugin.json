@@ -1,0 +1,20 @@
+{
+  "name": "ai-radija-tools",
+  "description": "AI Radija development toolkit — 24 skills for spec-driven development, TDD, design review, task generation, tracker integration, template setup, pre-knowledge doc generation, and PR workflows. Multi-model: Claude Code, Codex CLI, Antigravity.",
+  "version": "2.1.5",
+  "author": {
+    "name": "AI Radija"
+  },
+  "repository": "https://github.com/Felipe-Andrade-Freitas/ai-radija.git",
+  "license": "MIT",
+  "keywords": [
+    "sdd",
+    "spec-driven",
+    "tdd",
+    "planning",
+    "tasks",
+    "tracker",
+    "pr",
+    "design-review"
+  ]
+}

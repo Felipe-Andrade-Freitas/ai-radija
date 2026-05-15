@@ -1,0 +1,10 @@
+export const environment = {
+  production: false,
+  apiBaseUrl: 'https://localhost:5001/api',
+  apiScopes: ['api://{{appprefix-lower}}-api/.default'],
+  azureAd: {
+    clientId: '{{AAD_CLIENT_ID_PLACEHOLDER}}',
+    tenantId: '{{AAD_TENANT_ID_PLACEHOLDER}}',
+    redirectUri: 'http://localhost:4200',
+  },
+};

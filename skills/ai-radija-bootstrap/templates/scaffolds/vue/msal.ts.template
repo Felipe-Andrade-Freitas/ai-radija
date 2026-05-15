@@ -1,0 +1,18 @@
+import { PublicClientApplication, LogLevel } from '@azure/msal-browser';
+
+export const msalInstance = new PublicClientApplication({
+  auth: {
+    clientId: import.meta.env.VITE_AAD_CLIENT_ID as string,
+    authority: `https://login.microsoftonline.com/${import.meta.env.VITE_AAD_TENANT_ID}`,
+    redirectUri: import.meta.env.VITE_AAD_REDIRECT_URI as string,
+  },
+  cache: {
+    cacheLocation: 'sessionStorage',
+  },
+  system: {
+    loggerOptions: {
+      logLevel: import.meta.env.PROD ? LogLevel.Warning : LogLevel.Info,
+      piiLoggingEnabled: false,
+    },
+  },
+});

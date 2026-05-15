@@ -1,0 +1,11 @@
+package com.radija.{{appprefix-lower}};
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class {{AppPrefix}}Application {
+    public static void main(String[] args) {
+        SpringApplication.run({{AppPrefix}}Application.class, args);
+    }
+}

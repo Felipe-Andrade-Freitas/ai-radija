@@ -1,0 +1,46 @@
+using Microsoft.Identity.Web;
+using Serilog;
+using {{AppPrefix}}.API.Filters;
+using {{AppPrefix}}.API.Middleware;
+using {{AppPrefix}}.API.Services.Interfaces;
+using {{AppPrefix}}.API.Repositories.Interfaces;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration.AddAzureKeyVault(
+    new Uri(builder.Configuration["KeyVault:Uri"]!),
+    new Azure.Identity.DefaultAzureCredential());
+
+builder.Host.UseSerilog((ctx, lc) => lc
+    .ReadFrom.Configuration(ctx.Configuration)
+    .WriteTo.ApplicationInsights(
+        ctx.Configuration["ApplicationInsights:ConnectionString"],
+        TelemetryConverter.Traces));
+
+builder.Services.AddMicrosoftIdentityWebApiAuthentication(builder.Configuration);
+
+builder.Services.AddControllers(o =>
+{
+    o.Filters.Add<ValidateModelFilter>();
+});
+
+builder.Services.AddCors(o => o.AddPolicy("RadijaCorporate", p =>
+    p.WithOrigins(builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()!)
+     .AllowAnyHeader()
+     .AllowAnyMethod()
+     .AllowCredentials()));
+
+// Register services and repositories by interface
+// builder.Services.AddScoped<IExampleService, ExampleService>();
+// builder.Services.AddScoped<IExampleRepository, ExampleRepository>();
+
+var app = builder.Build();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.UseMiddleware<RequestLoggingMiddleware>();
+app.UseCors("RadijaCorporate");
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapControllers();
+
+app.Run();

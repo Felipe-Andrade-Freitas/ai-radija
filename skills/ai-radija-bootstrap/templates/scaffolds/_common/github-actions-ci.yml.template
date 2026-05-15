@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup runtime ({{Backend}})
+        run: echo "Setup runtime for {{Backend}}"
+      - name: Build
+        run: echo "Build backend"
+      - name: Test
+        run: echo "Run tests with coverage >= {{CoverageBackend}}%"
+
+  frontend:
+    if: '{{Frontend}}' != 'none'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Build
+        run: echo "Build frontend {{Frontend}}"
+      - name: Test
+        run: echo "Run tests with coverage >= {{CoverageFrontend}}%"

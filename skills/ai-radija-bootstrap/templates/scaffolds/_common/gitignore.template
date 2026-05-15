@@ -1,0 +1,61 @@
+# Secrets — NEVER commit
+appsettings.*.json
+!appsettings.json
+!appsettings.Development.json.template
+.env
+.env.*
+!.env.example
+secrets.json
+*.pem
+*.pfx
+*.key
+
+# Backend artifacts (.NET)
+bin/
+obj/
+*.user
+*.suo
+
+# Node
+node_modules/
+dist/
+.angular/
+.nx/
+.vite/
+
+# Java
+target/
+*.class
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Go
+*.exe
+vendor/
+
+# IDE
+.vs/
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# OS
+Thumbs.db
+
+# Tests / coverage
+coverage/
+TestResults/
+*.lcov
+
+# Local DB
+*.bak
+*.mdf
+*.ldf

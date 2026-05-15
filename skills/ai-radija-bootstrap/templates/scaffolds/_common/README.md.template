@@ -1,0 +1,66 @@
+# {{ProjectName}}
+
+> Proyecto Radija ({{Country}}). Stack acordado: {{Backend}} + {{Frontend}} + {{Database}}.
+> Contrato técnico: ver [`CLAUDE.md`](./CLAUDE.md). Decisión de stack: ver [`docs/architecture-decisions/ADR-0001-stack-selection.md`](./docs/architecture-decisions/ADR-0001-stack-selection.md).
+
+---
+
+## Setup local
+
+### Prerrequisitos
+- {{BackendRuntime}}
+- {{FrontendRuntime}}
+- Acceso a {{Vault}} (perfil de Azure CLI o credenciales temporales para desarrollo)
+- {{Database}} local o acceso al ambiente de Dev
+
+### Secrets
+Los secrets viven en **{{Vault}}**. Para desarrollo local:
+1. Autenticarse contra el proveedor de cloud (`az login` / `aws sso login` / etc.)
+2. El backend resuelve secrets en arranque vía `vault.loader`.
+3. **Nunca** copiar valores de secrets a archivos `.env` versionados.
+
+### Backend
+```bash
+cd src/{{AppPrefix}}.API
+{{BackendRunCmd}}
+```
+
+### Frontend
+```bash
+cd src/{{AppPrefix}}.Web
+{{FrontendRunCmd}}
+```
+
+### Base de datos
+1. Ejecutar migraciones desde `database/migrations/` en orden.
+2. Ejecutar Stored Procedures desde `database/stored-procedures/`.
+
+---
+
+## Tests
+
+```bash
+{{TestCmd}}
+```
+
+Cobertura mínima objetivo: backend {{CoverageBackend}}%, frontend {{CoverageFrontend}}%.
+
+---
+
+## Cumplimiento regulatorio — {{Country}}
+
+Este proyecto debe cumplir **{{RegulationName}}**. Ver sección regulatoria en [`CLAUDE.md`](./CLAUDE.md).
+
+---
+
+## Workflow recomendado
+
+1. Toda nueva feature inicia con `/speckit.specify`.
+2. Luego `/speckit.plan` → `/speckit.tasks` → `/speckit.implement`.
+3. PRs deben cumplir el checklist de seguridad listado en `CLAUDE.md`.
+
+---
+
+## Soporte
+
+Para dudas técnicas o de arquitectura, consultar el equipo Radija {{Country}}.

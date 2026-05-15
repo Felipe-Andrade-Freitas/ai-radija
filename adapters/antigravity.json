@@ -1,0 +1,7 @@
+{
+  "name": "Antigravity",
+  "skills_dir": ".agents/skills",
+  "context_file": "AGENTS.md",
+  "install_url": null,
+  "notes": "Requires Antigravity v1.20.5 or newer. Uses same .agents/skills/ layout as Codex."
+}

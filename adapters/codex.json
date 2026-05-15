@@ -1,0 +1,7 @@
+{
+  "name": "Codex CLI",
+  "skills_dir": ".agents/skills",
+  "context_file": "AGENTS.md",
+  "install_url": "https://github.com/openai/codex",
+  "notes": "Requires Codex CLI. Skills are placed in .agents/skills/ directory."
+}

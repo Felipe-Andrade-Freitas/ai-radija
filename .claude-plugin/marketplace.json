@@ -1,0 +1,16 @@
+{
+  "name": "ai-radija-tools-local",
+  "owner": {
+    "name": "AI Radija"
+  },
+  "description": "Local marketplace for AI Radija Tools v2.1.4 — 24 skills for spec-driven development, TDD, design review, task generation, tracker integration, pre-knowledge doc generation, and PR workflows.",
+  "version": "2.1.5",
+  "plugins": [
+    {
+      "name": "ai-radija-tools",
+      "source": "./",
+      "description": "Complete AI Radija toolkit with 24 skills for spec-driven development.",
+      "version": "2.1.5"
+    }
+  ]
+}

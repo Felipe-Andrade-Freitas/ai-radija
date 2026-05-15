@@ -1,0 +1,38 @@
+using System.Net;
+using System.Text.Json;
+using {{AppPrefix}}.API.ViewModels;
+
+namespace {{AppPrefix}}.API.Middleware;
+
+public class ExceptionHandlingMiddleware
+{
+    private readonly RequestDelegate _next;
+    private readonly ILogger<ExceptionHandlingMiddleware> _logger;
+    private readonly IHostEnvironment _env;
+
+    public ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger, IHostEnvironment env)
+    {
+        _next = next; _logger = logger; _env = env;
+    }
+
+    public async Task InvokeAsync(HttpContext ctx)
+    {
+        try
+        {
+            await _next(ctx);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Unhandled exception. CorrelationId={CorrelationId}", ctx.TraceIdentifier);
+
+            ctx.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            ctx.Response.ContentType = "application/json";
+
+            var safeMessage = _env.IsDevelopment() ? ex.Message : "An unexpected error occurred.";
+            var body = ApiResponseVm<object>.Fail(safeMessage);
+            body.CorrelationId = ctx.TraceIdentifier;
+
+            await ctx.Response.WriteAsync(JsonSerializer.Serialize(body));
+        }
+    }
+}

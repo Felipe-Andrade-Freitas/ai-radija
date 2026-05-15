@@ -1,0 +1,94 @@
+﻿# ADR-0001 — Selección de stack tecnológico
+
+- **Estado:** Aceptado
+- **Fecha:** {{GeneratedDate}}
+- **Decisores:** {{DeveloperName}} (desarrollador) · Equipo {{Country}}
+- **Generado por:** skill `ai-radija-bootstrap`
+
+---
+
+## Contexto
+
+Inicio del proyecto **{{ProjectName}}** ({{ProjectType}}) para la operación en **{{Country}}**. El equipo necesita fijar el stack tecnológico antes de comenzar la implementación.
+
+Marco regulatorio aplicable: **{{RegulationName}}**.
+
+---
+
+## Decisión
+
+Se adopta el siguiente stack:
+
+| Capa | Decisión | ¿Alineado al estándar recomendado? |
+|---|---|---|
+| Frontend | {{Frontend}} | {{FrontendAlignment}} |
+| Backend | {{Backend}} | {{BackendAlignment}} |
+| Base de datos | {{Database}} | {{DatabaseAlignment}} |
+| Acceso a datos | {{DataAccess}} | {{DataAccessAlignment}} |
+| Autenticación | {{Auth}} | {{AuthAlignment}} |
+| Hosting | {{Hosting}} | {{HostingAlignment}} |
+| CI/CD | {{CICD}} | {{CICDAlignment}} |
+| Vault | {{Vault}} | {{VaultAlignment}} |
+| Observabilidad | {{Observability}} | {{ObservabilityAlignment}} |
+| Testing backend | {{TestBackend}} ({{CoverageBackend}}% cobertura) | {{TestBackendAlignment}} |
+| Testing frontend | {{TestFrontend}} ({{CoverageFrontend}}% cobertura) | {{TestFrontendAlignment}} |
+| Idioma UI | {{UILanguage}} | n/a |
+
+---
+
+## Justificación por decisión
+
+### Frontend → {{Frontend}}
+{{FrontendRationale}}
+
+### Backend → {{Backend}}
+{{BackendRationale}}
+
+### Base de datos + Acceso a datos → {{Database}} + {{DataAccess}}
+{{DataRationale}}
+
+### Autenticación → {{Auth}}
+{{AuthRationale}}
+
+### Hosting + CI/CD → {{Hosting}} + {{CICD}}
+{{InfraRationale}}
+
+### Vault + Observabilidad → {{Vault}} + {{Observability}}
+{{OpsRationale}}
+
+---
+
+## Desviaciones del estándar recomendado
+
+Las siguientes elecciones se apartan del estándar recomendado. El desarrollador justificó cada una durante la entrevista:
+
+{{DeviationsBlock}}
+
+> Si esta sección está vacía, todas las decisiones siguieron el estándar recomendado.
+
+---
+
+## Consecuencias
+
+### Positivas
+- {{PositiveConsequences}}
+
+### Negativas / riesgos a monitorear
+- {{NegativeConsequences}}
+- Si el proyecto eventualmente debe converger con el estándar recomendado, revisar las desviaciones anteriores.
+
+---
+
+## Alternativas consideradas y descartadas
+
+{{AlternativesBlock}}
+
+---
+
+## Revisión
+
+Este ADR debe revisarse cuando:
+- Se evalúe migrar a una versión mayor del framework backend o frontend.
+- Cambien las restricciones regulatorias del país.
+- Surja un incidente de seguridad asociado a una de las decisiones tomadas.
+- Se decida converger con el estándar recomendado (requiere ADR-0002).

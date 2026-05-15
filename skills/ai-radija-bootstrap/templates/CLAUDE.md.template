@@ -1,0 +1,151 @@
+﻿# CLAUDE.md — {{ProjectName}}
+
+> Contrato técnico del proyecto. Claude Code lee este archivo automáticamente al iniciar cada sesión.
+> Generado por el skill `ai-radija-bootstrap` el {{GeneratedDate}}.
+
+---
+
+## 🏢 Identidad
+
+| Campo | Valor |
+|---|---|
+| Nombre del proyecto | {{ProjectName}} |
+| AppPrefix (tablas, SPs) | {{AppPrefix}} |
+| País de operación | {{Country}} |
+| Tipo de proyecto | {{ProjectType}} |
+| Idioma del código | inglés (no negociable) |
+| Idioma de UI | {{UILanguage}} |
+| Zona horaria backend | UTC |
+| Zona horaria frontend | local del usuario (conversión en cliente) |
+
+---
+
+## 🏗️ Stack acordado
+
+| Capa | Tecnología |
+|---|---|
+| Frontend | {{Frontend}} |
+| Backend | {{Backend}} |
+| Base de datos | {{Database}} |
+| Acceso a datos | {{DataAccess}} |
+| Autenticación | {{Auth}} |
+| Hosting | {{Hosting}} |
+| CI/CD | {{CICD}} |
+| Vault | {{Vault}} |
+| Observabilidad | {{Observability}} |
+| Testing backend | {{TestBackend}} (cobertura mínima {{CoverageBackend}}%) |
+| Testing frontend | {{TestFrontend}} (cobertura mínima {{CoverageFrontend}}%) |
+
+> **No proponer cambios al stack sin actualizar también el ADR-0001.** Cualquier cambio de stack es una decisión arquitectónica que requiere un nuevo ADR.
+
+---
+
+## 🔒 Reglas irrompibles transversales
+
+1. **Secrets** nunca en repo — siempre en {{Vault}}.
+2. **Idioma del código**: inglés. Variables, métodos, clases, comentarios técnicos.
+3. **Idioma de UI**: {{UILanguage}}.
+4. **Backend en UTC**, conversión a local en frontend.
+5. **Soft delete** (`IsActive` / `is_active` / `deleted_at`) — nunca DELETE físico.
+6. **Toda tabla** debe tener: `CreatedAt`, `UpdatedAt`, `CreatedBy`, `UpdatedBy`.
+7. **Nunca exponer entidades de dominio** en endpoints — siempre DTO / ViewModel / Response model.
+8. **Wrapper de respuesta API**: `ApiResponse<T> { success, data, error, message }`.
+9. **CORS** restringido a dominios corporativos.
+10. **Logs estructurados**, sin PII en claro, con correlation ID por request.
+11. **Hash de PINs/passwords**: Argon2id o bcrypt (SHA-256 solo con salt único).
+12. **Rate limiting** en endpoints públicos y de IA.
+13. **No exponer stack traces** en respuestas de producción.
+14. **Validación de entrada** en el boundary (DTOs) — no confiar en clientes.
+
+---
+
+## 🌎 Regulación aplicable — {{Country}}
+
+{{RegulationBlock}}
+
+---
+
+## 📐 Arquitectura por capas
+
+```
+Controller / Handler  → Recibe request HTTP, valida, delega al Service, retorna DTO
+DTO / ViewModel       → Entrada y salida de la API. Nunca exponer entidades de dominio
+Service               → Lógica de aplicación, orquestación, llamadas a APIs externas
+Repository            → Acceso a datos. {{DataAccessRule}}
+Model / Entity        → Entidad de dominio pura, sin anotaciones de presentación
+```
+
+### Reglas arquitectónicas
+
+- Nunca lógica de negocio en Controllers.
+- Nunca llamadas a BD desde Controllers — siempre por Service → Repository.
+- Nunca SQL inline si {{DataAccess}} = `Dapper + Stored Procedures`.
+- Inyección de dependencias siempre por interfaz.
+
+---
+
+## 🗄️ Convenciones de BD
+
+### Nomenclatura de tablas
+```
+{{AppPrefix}}_{EntityName}    → Ej: {{AppPrefix}}_Users, {{AppPrefix}}_Orders
+```
+
+### Nomenclatura de Stored Procedures (si aplica)
+```
+sp_{{AppPrefix}}_{Verb}{Entity}   → Ej: sp_{{AppPrefix}}_GetUsers, sp_{{AppPrefix}}_UpsertOrder
+```
+
+### Columnas obligatorias en toda tabla
+```sql
+CreatedAt   DATETIME2   DEFAULT GETUTCDATE()    -- siempre UTC
+CreatedBy   NVARCHAR(100) NOT NULL              -- userId o sistema
+UpdatedAt   DATETIME2   NULL
+UpdatedBy   NVARCHAR(100) NULL
+IsActive    BIT         DEFAULT 1               -- soft delete
+```
+
+---
+
+## 📝 Convenciones de naming — {{Backend}} / {{Frontend}}
+
+{{NamingConventions}}
+
+---
+
+## 🧪 Testing
+
+- Por cada Service generado → archivo de test correspondiente.
+- Cobertura mínima en Services: backend {{CoverageBackend}}%, frontend {{CoverageFrontend}}%.
+- Cubrir: happy path, errores de validación, errores de dependencias externas.
+- Frameworks: {{TestBackend}}, {{TestFrontend}}.
+
+---
+
+## 🚫 Lo que NUNCA generar
+
+- Secrets, API keys, passwords en código o config versionada.
+- Entity Framework si {{DataAccess}} = `Dapper + SPs`.
+- ASP.NET Identity (auth por {{Auth}}).
+- Queries SQL inline si {{DataAccess}} = `Dapper + SPs`.
+- Lógica de negocio en Controllers.
+- Llamadas HTTP directas en componentes de frontend (siempre vía service).
+- Uso de `any` en TypeScript / `dynamic` sin justificar en C#.
+- DELETE físico en BD.
+- Exponer entidades de dominio en endpoints.
+
+---
+
+## 📌 Próximos pasos sugeridos para Claude Code
+
+1. Al recibir un requerimiento nuevo, ejecutar `/speckit.specify` primero (consistente con el flujo speckit).
+2. Mantener el stack acordado. Si surge necesidad de cambio, generar `ADR-0002` y actualizar este archivo.
+3. Toda nueva tabla debe cumplir el checklist de auditoría.
+4. Toda nueva integración externa debe documentarse aquí en una tabla "Integraciones".
+
+---
+
+## 🔗 Referencias
+
+- [ADR-0001 — Selección de stack](docs/architecture-decisions/ADR-0001-stack-selection.md)
+- Skill base: `ai-radija-bootstrap`

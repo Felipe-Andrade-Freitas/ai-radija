@@ -1,0 +1,16 @@
+namespace {{AppPrefix}}.API.ViewModels;
+
+public class ApiResponseVm<T>
+{
+    public bool Success { get; set; }
+    public T? Data { get; set; }
+    public string? Error { get; set; }
+    public string? Message { get; set; }
+    public string? CorrelationId { get; set; }
+
+    public static ApiResponseVm<T> Ok(T data, string? message = null) =>
+        new() { Success = true, Data = data, Message = message };
+
+    public static ApiResponseVm<T> Fail(string error) =>
+        new() { Success = false, Error = error };
+}
