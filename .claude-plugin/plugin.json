@@ -1,7 +1,7 @@
 {
   "name": "ai-radija-tools",
-  "description": "AI Radija development toolkit — 24 skills for spec-driven development, TDD, design review, task generation, tracker integration, template setup, pre-knowledge doc generation, and PR workflows. Multi-model: Claude Code, Codex CLI, Antigravity.",
-  "version": "2.1.5",
+  "description": "AI Radija development toolkit — 27 skills for spec-driven development, TDD, design review, task generation, tracker integration, template setup, pre-knowledge doc generation, tutorial/docs creation with screenshots, and PR workflows. Multi-model: Claude Code, Codex CLI, Antigravity.",
+  "version": "2.2.0",
   "author": {
     "name": "AI Radija"
   },
@@ -15,6 +15,10 @@
     "tasks",
     "tracker",
     "pr",
-    "design-review"
+    "design-review",
+    "tutorial",
+    "docs",
+    "screenshots",
+    "help-center"
   ]
 }

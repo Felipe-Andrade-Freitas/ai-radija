@@ -35,7 +35,7 @@ claude --plugin-dir /path/to/ai-radija-tools
 
 #### Verify installation
 
-Once installed, the 23 skills become available. Test with:
+Once installed, the 27 skills become available. Test with:
 
 ```
 /ai-radija-tools:ai-radija-grill-me
@@ -122,6 +122,7 @@ grill-me → specify → clarify → plan → tasks → tdd → implement → pr
 | Skill | Description |
 |-------|-------------|
 | `/ai-radija-write-a-skill` | Create new agent skills |
+| `/ai-radija-write-a-tutorial` | Plan, capture and publish a complete tutorial (or series) for a product flow in any help center / docs site |
 | `/ai-radija-setup-templates` | Set up custom project templates for artifact-generating skills |
 
 ---
@@ -132,7 +133,7 @@ grill-me → specify → clarify → plan → tasks → tdd → implement → pr
 ai-radija-tools/
 ├── .claude-plugin/
 │   └── plugin.json          # Plugin manifest (name, version, description)
-├── skills/                  # 23 skills — auto-discovered by Claude Code
+├── skills/                  # 27 skills — auto-discovered by Claude Code
 │   ├── ai-radija-grill-me/SKILL.md
 │   ├── ai-radija-specify/SKILL.md
 │   ├── ai-radija-clarify/SKILL.md
